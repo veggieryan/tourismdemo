@@ -6600,6 +6600,11 @@ h1#wb-cont {
 .view-ol-locator-proximity-search .text-center {
   clear: both;
 }
-.view-ol-locator-proximity-search .form-item-field-geofield-distance-origin {
-  margin-top: -23px;
+@media (min-width: 481px) {
+  .view-ol-locator-proximity-search .form-item-field-geofield-distance-origin {
+    margin-top: -23px;
+  }
+}
+.ui-btn-inner {
+  display: none;
 }
