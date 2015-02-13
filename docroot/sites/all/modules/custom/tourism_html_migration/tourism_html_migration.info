@@ -1,0 +1,14 @@
+name = Tourism HTML Migration
+description = Import content from legacy html
+core = 7.x
+package = TOURISM
+version = 7.x-1.0
+
+dependencies[] = migrate
+dependencies[] = migrate_ui
+
+files[] = tourism_html_migration.module
+files[] = tourism_html_migration.migrate.inc
+files[] = querypath/src/qp.php
+files[] = source_parser.inc
+files[] = locations.inc

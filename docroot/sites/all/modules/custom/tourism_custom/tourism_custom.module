@@ -1,0 +1,127 @@
+<?php
+/**
+ * @file
+ * Code for the Tourism Demo
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function tourism_custom_form_alter(&$form, &$form_state, $form_id) {
+  
+  if ($form_id == 'views_exposed_form' && ($form['#id'] == 'views-exposed-form-ol-locator-proximity-search-page-1') ) {
+    //dsm($form);
+    $form['field_ol_locator_address_administrative_area'] = array(
+      '#type' => 'select',
+      '#default_value' => '',
+      '#options' => array(
+        '' => 'None',
+        'AL' => 'Alabama',
+        'AK' => 'Alaska',
+        'AZ' => 'Arizona',
+        'AR' => 'Arkansas',
+        'CA' => 'California',
+        'CO' => 'Colorado',
+        'CT' => 'Connecticut',
+        'DE' => 'Delaware',
+        'DC' => 'District Of Columbia',
+        'FL' => 'Florida',
+        'GA' => 'Georgia',
+        'HI' => 'Hawaii',
+        'ID' => 'Idaho',
+        'IL' => 'Illinois',
+        'IN' => 'Indiana',
+        'IA' => 'Iowa',
+        'KS' => 'Kansas',
+        'KY' => 'Kentucky',
+        'LA' => 'Louisiana',
+        'ME' => 'Maine',
+        'MD' => 'Maryland',
+        'MA' => 'Massachusetts',
+        'MI' => 'Michigan',
+        'MN' => 'Minnesota',
+        'MS' => 'Mississippi',
+        'MO' => 'Missouri',
+        'MT' => 'Montana',
+        'NE' => 'Nebraska',
+        'NV' => 'Nevada',
+        'NH' => 'New Hampshire',
+        'NJ' => 'New Jersey',
+        'NM' => 'New Mexico',
+        'NY' => 'New York',
+        'NC' => 'North Carolina',
+        'ND' => 'North Dakota',
+        'OH' => 'Ohio',
+        'OK' => 'Oklahoma',
+        'OR' => 'Oregon',
+        'PA' => 'Pennsylvania',
+        'RI' => 'Rhode Island',
+        'SC' => 'South Carolina',
+        'SD' => 'South Dakota',
+        'TN' => 'Tennessee',
+        'TX' => 'Texas',
+        'UT' => 'Utah',
+        'VT' => 'Vermont',
+        'VA' => 'Virginia',
+        'WA' => 'Washington',
+        'WV' => 'West Virginia',
+        'WI' => 'Wisconsin',
+        'WY' => 'Wyoming',
+      ),
+    );
+  }
+
+}
+
+/*
+* create custom element process for geofield views exposed form
+* 
+* 
+*/
+
+function tourism_custom_element_info_alter(&$type) {
+  if (isset($type['geofield_proximity']['#process'])) {
+    $type['geofield_proximity']['#process'][] = 'tourism_custom_proximity_element_process';
+  }
+};
+ 
+/*
+* Alter geofield views exposed form
+* create distance select box
+* hide unit dropdown
+*/
+function tourism_custom_proximity_element_process($element, &$form_state, $form) {
+  if ($form_state['view']->name == 'ol_locator_proximity_search' && $form_state['view']->current_display == 'page_1'){
+    //dpm($element);
+    $element['distance']['#type'] = 'select'; 
+
+    // Add the dropdown
+    $element['distance']['#options'] = array(
+            NULL => t('Select Distance'),
+            5 => t('5 Miles'),
+            25 => t('25 Miles'),
+            50 => t('50 Miles'),
+            75 => t('75 Miles'),
+            100 => t('100 Miles'),
+            250 => t('250 Miles'),
+            500 => t('500 Miles'),
+            100000 => t('Any Distance')
+          );
+    // Set distance default value
+    $element['distance']['#default_value'] = NULL;
+
+    // Set unit deafult to miles
+    $element['unit']['#default_value'] = GEOFIELD_MILES;
+    //Hide unit dropdown
+    $element['unit']['#access'] = FALSE;
+    
+    $element['origin']['#title'] = t('Any address element like street, city, state, and/or zip...');
+    $element['origin']['#title_display'] = TRUE;
+    return $element;
+  }
+  return $element;
+};
+
+
+
+

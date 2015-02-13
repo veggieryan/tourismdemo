@@ -1,0 +1,5 @@
+name = Tourism Custom Code
+description = Custom code for Tourism Demo
+core = 7.x
+package = TOURISM
+version = 7.x-1.0
